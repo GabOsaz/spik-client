@@ -14,7 +14,7 @@ export const VideoPlayer: React.FC<{ stream?: MediaStream | null, handleMute: ()
                 style={{ width: "100%" }}
                 ref={videoRef}
                 autoPlay
-                // muted={true} 
+                // muted={true}
                 muted={false} 
             />
             <button

@@ -8,12 +8,14 @@ const App = () => {
     const [remotePeerIdValue, setRemotePeerIdValue] = useState('');
     // const [peer, setPeer] = useState<Peer>();
     const peerInstance = useRef<Peer>();
+    const peerConnectionInstance = useRef<any>();
     // let stream = useRef<MediaStream | null>(null);
     // let remoteStream = useRef<MediaStream | null>(null);
-    const [stream, setStream] = useState<MediaStream | null>();
+    const [stream, setStream] = useState<any>(null);
     const [remoteStream, setRemoteStream] = useState<MediaStream | null>();
     const [mute, setMute] = useState(true);
     const [remoteMute, setRemoteMute] = useState(true);
+    const [me, setMe] = useState<any>();
     const [shouldAnswerCall, setShouldAnswerCall] = useState(false);
     const [incomingCall, setIcomingCall] = useState(false);
 
@@ -27,10 +29,11 @@ const App = () => {
 
     useEffect(() => {
         
-        let peer = new Peer(id);
+        let peer = new Peer(id, { debug: 3 });
         peer.on('open', (id) => {
           peerInstance.current = peer;
-          setPeerId(id)
+          setMe(peer);
+          setPeerId(id);
           console.log(id);
         });
     
@@ -47,21 +50,31 @@ const App = () => {
             }
         }
         getDeviceStream();
+    }, [id]);
+
+    useEffect(() => {
+        peerConnectionInstance?.current?.on('data', function(data: string) {
+            console.log('Received', data);
+          });
+      return () => {};
     }, [])
 
     useEffect(() => {
         const handleIncomingCall = () => {
             // try {
                 // console.log(shouldAnswerCall);
-                peerInstance?.current?.on('call', (call) => {
+                // peerInstance?.current?.disconnect();
+
+                // peerInstance?.current?.on('call', (call) => {
+                me?.on('call', (call: any) => {
                 setIcomingCall(true);
                 // if (shouldAnswerCall === true) {
                     console.log('here >>>')
                     stream && call.answer(stream);
-                    call.on('stream', (incomingStream) => {
+                    call.on('stream', (incomingStream: any) => {
                         setRemoteStream(incomingStream);
                     })
-                // }    
+                // }
                 })
             // } catch (error) {
             //     console.error(error);
@@ -72,22 +85,53 @@ const App = () => {
       return () => {
         
       }
-    }, [shouldAnswerCall, stream])
+    }, [stream, me])
     
     const call = (remotePeerId: string) => {
       console.log(remotePeerId, 'here')
 
-      let peer = peerInstance.current;
+    //   let peer = peerInstance.current;
+      let peer = me;
+      let conn = peer?.connect(remotePeerId);
+      peerConnectionInstance.current = conn;
+
+    //   peer?.disconnect();
+
+    // try {
+    //     let call = peer?.call(remotePeerId, stream);
+    //     console.log(call)
+    //   call?.on('stream', (incomingStream: MediaStream) => {
+    //     console.log('here >>>')
+    //         setRemoteStream(incomingStream);
+    //         console.log(incomingStream);
+    //         console.log('Connected to ' + call?.peer);
+    //   });
+    //   call?.on('close', () => {
+    //     console.log("call closed");
+    //     call?.close();
+    //   });
+  
+    //   call?.on('error', (error) => {
+    //     console.log("call error", error);
+    //     call?.close();
+    //   });
+    // } catch (error) {
+    //     console.log(error);
+    // }
         const getDeviceStream = async () => {
             console.log(id);
             try {
-                const mediaStream = await navigator?.mediaDevices?.getUserMedia({ video: true, audio: true });
-                setStream(mediaStream);
-                console.log(peer?.destroyed);
+                // const mediaStream = await navigator?.mediaDevices?.getUserMedia({ video: true, audio: true });
+                // setStream(mediaStream);
+                // console.log(peer?.destroyed);
 
-                let call = peer?.call(remotePeerId, mediaStream)
+                let call = peer?.call(remotePeerId, stream)
                 // const call = peerInstance?.current && peerInstance?.current.call(remotePeerId, mediaStream)
                 console.log(call);
+                conn?.on('open', function() {                
+                    // Send messages
+                    conn?.send('Incoming call!');
+                });
                 call?.on('stream', (incomingStream: MediaStream) => {
                     console.log('here >>>')
                     if (incomingStream === undefined) {
@@ -100,7 +144,7 @@ const App = () => {
                         console.log('Connected to ' + call?.peer);
                     }
                 });
-                call?.on('error', (error) => {
+                call?.on('error', (error: any) => {
                     console.log("call error", error);
                     // removeRemoteStream(call.peer);
                     // call.close();
@@ -117,7 +161,8 @@ const App = () => {
     //     Object.keys(peerInstance?.current?.connections).map((conn: string) => {
     //   if (peerInstance?.current?.connections[conn][0]) peerInstance?.current?.connections[conn][0].close();
     // });
-        const call = peerInstance?.current;
+        // const call = peerInstance?.current;
+        const call = me;
         call && call.disconnect()
         console.log(call, 'here >>>')
         setStream(null);
@@ -126,7 +171,7 @@ const App = () => {
 
     const handleMute = (isRemote?: string) => {
         console.log(isRemote);
-        const hostTrack = stream?.getTracks()?.find(track => track.kind === 'audio');
+        const hostTrack = stream?.getTracks()?.find((track: { kind: string; }) => track.kind === 'audio');
         const remoteTrack = remoteStream?.getTracks().find((track: any) => track.kind === 'audio');
         if (isRemote) {
             console.log('here')
@@ -158,8 +203,8 @@ const App = () => {
                     <button onClick={() => setShouldAnswerCall(true)}>Join</button>
                 </>
             } */}
-            {/* <h1>Current user id is {peer?.id}</h1> */}
-            <h1>Current user id is {peerInstance?.current?.id}</h1>
+            <h1>Current user id is {me?.id}</h1>
+            {/* <h1>Current user id is {peerInstance?.current?.id}</h1> */}
             <input className="border border-gray-500 text-black px-4 py-2" type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
             <button 
                 className="border rounded px-4 py-3 disabled:cursor-not-allowed" 
