@@ -151,8 +151,8 @@ function useCallLogic(companyId: string) {
         
         // let peer = new Peer(id, { debug: 3 });
         let peer = new Peer(id || '', {
-            host: "localhost",
-            // host: "https://spik-voice-server.onrender.com",
+            // host: "localhost",
+            host: "https://spik-voice-server.onrender.com",
             port: 9099,
             path: "/peerjs",
             // host: "localhost",
