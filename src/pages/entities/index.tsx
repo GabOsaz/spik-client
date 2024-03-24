@@ -1,6 +1,7 @@
 import { AudioPlayer } from '../../components/players/audioPlayer';
 import Timer from '../call/view/Timer';
 import useEntitiesLogic from './controller/useEntitiesLogic';
+import ChatComp from '../../components/chat';
 
 function CompanyReceiveCall() {
     const {
@@ -14,7 +15,6 @@ function CompanyReceiveCall() {
         remoteStream,
         incomingCall,
         stream,
-        dataConnection,
     } = useEntitiesLogic();
 
 //   const {
@@ -81,7 +81,7 @@ console.log(incomingCall);
 
                     {incomingCall && (
                         <div className="space-y-4 text-center">
-                            <p>Incoming call from {incomingCall?.peer}</p>
+                            <p>Incoming call</p>
                             <button
                                 type="button"
                                 onClick={() => answerCall(incomingCall)}
@@ -98,6 +98,8 @@ console.log(incomingCall);
                     )}
                 </div>
             </div>
+
+            {/* <ChatComp /> */}
         </div>
     // </CallProvider>
   )

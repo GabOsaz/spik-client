@@ -32,7 +32,7 @@ function useCallLogic(companyId: string) {
     const [stream, setStream] = useState<any>(null);
     const [remoteStream, setRemoteStream] = useState<MediaStream | null>();
     const [isMuted, setIsMuted] = useState(false);
-    const [id, setId] = useState('omoss');
+    const [id, setId] = useState('id');
     const [incomingCall, setIncomingCall] = useState<any>();
     const [isCalling, setIsCalling] = useState(false);
     const [connectedCall, setConnectedCall] = useState(false);
@@ -57,15 +57,7 @@ function useCallLogic(companyId: string) {
     const navigate = useNavigate();
 
     const hostId = (window?.location?.search?.substring(4));
-    console.log(remoteStream);
-    
-    // useEffect(() => {
-    //   dataConnection?.on('data', (data: any) => {
-    //     console.log(data);
-    //   })
-    
-    //   return () => {}
-    // }, [dataConnection]);
+    console.log(remoteStream, stream);
 
     const handleEndCall = useCallback(() => {
         socketInstance?.emit('end_call', id);
@@ -77,14 +69,6 @@ function useCallLogic(companyId: string) {
         // window.location.reload();
     // navigate('/entities')
     }, [incomingCall, remoteStream, stream, socketInstance, id]);
-
-    // useEffect(() => {
-    //     console.log('here');
-    //     socketInstance.connect();
-    // return () => {
-    //     socketInstance.disconnect()
-    // };
-    // }, []);
 
     useEffect(() => {
     // socket.on('messageQueue', (data: any) => setChatMessages([...chatMessages, data]));
@@ -102,6 +86,7 @@ function useCallLogic(companyId: string) {
         socketInstance?.off('call_ended', onCallEndedFn)
     }
     }, [socketInstance]);
+    console.log(me);
 
     const makeCall = useCallback((remotePeerId: string) => {
         console.log(remotePeerId, 'here')
@@ -152,9 +137,13 @@ function useCallLogic(companyId: string) {
         // let peer = new Peer(id, { debug: 3 });
         let peer = new Peer(id || '', {
             // host: "localhost",
-            host: "https://spik-voice-server.onrender.com",
-            port: 9099,
-            path: "/peerjs",
+            // host: "spik-peer-server.onrender.com",
+            host: "0.peerjs.com",
+            port: 443,
+            // port: 9999,
+            // path: "/peerjs",
+            // secure: true,
+            debug: 3,
             // host: "localhost",
             // port: 9000,
             // path: "/myapp",

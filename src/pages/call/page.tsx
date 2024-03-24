@@ -28,7 +28,7 @@ function Call() {
 
   return (
     <div className="h-screen pt-12">
-        <div className="relative h-[80%] w-full md:w-1/2 lg:w-1/4 py-4 px-3 border border-[rgb(41,56,79)] rounded-3xl mx-auto flex items-center justify-center">
+        <div className="relative h-[80%] w-full md:w-1/2 lg:w-1/4 py-4 px-3 md:border border-[rgb(41,56,79)] rounded-3xl mx-auto flex items-center justify-center">
             <div className="">
                 {isCalling &&
                 <div className="text-center">

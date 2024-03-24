@@ -118,10 +118,14 @@ function useEntitiesLogic() {
         
         // let peer = new Peer(id, { debug: 3 });
         let peer = new Peer(companyId, {
-            host: "https://spik-voice-server.onrender.com",
+            host: "0.peerjs.com",
+            // host: "spik-peer-server.onrender.com",
+            secure: true,
             // host: "localhost",
-            port: 9099,
-            path: "/peerjs",
+            port: 443,
+            // port: 9999,
+            // path: "/peerjs",
+            debug: 3,
         });
         peer.on('open', (id) => {
           setMe(peer);
