@@ -41,7 +41,7 @@ function Call() {
                             <Timer />
                         </div>}
                         <div className="">
-                            <AudioPlayer stream={stream} handleMute={handleMute} isMuted={isMuted} />
+                            <AudioPlayer stream={remoteStream} handleMute={handleMute} isMuted={isMuted} />
                         </div>
                         <div className="absolute bottom-6">
                             <div className="flex space-x-6">

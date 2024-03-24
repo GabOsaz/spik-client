@@ -47,7 +47,7 @@ console.log(incomingCall);
                                 <Timer />
                             </div>}
                             <div className="">
-                                <AudioPlayer stream={stream} handleMute={handleMute} isMuted={isMuted} />
+                                <AudioPlayer stream={remoteStream} handleMute={handleMute} isMuted={isMuted} />
                             </div>
                             <div className="absolute bottom-6">
                                 <div className="flex justify-center space-x-6">
