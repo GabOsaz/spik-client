@@ -57,7 +57,7 @@ function useCallLogic(companyId: string) {
     const navigate = useNavigate();
 
     const hostId = (window?.location?.search?.substring(4));
-    console.log(remoteStream, stream);
+    console.log(remoteStream);
 
     const handleEndCall = useCallback(() => {
         socketInstance?.emit('end_call', id);

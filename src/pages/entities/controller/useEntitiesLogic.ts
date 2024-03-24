@@ -15,6 +15,7 @@ function useEntitiesLogic() {
     const [dataConnection, setDataConnection] = useState<any>();
     const [socketInstance, setSocketInstance] = useState<any>(null);
 
+    console.log(remoteStream);
     useEffect(() => {
         const socket = socketIO('https://spik-voice-server.onrender.com');
         setSocketInstance(socket);

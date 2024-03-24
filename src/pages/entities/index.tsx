@@ -30,6 +30,7 @@ function CompanyReceiveCall() {
 //     handleEndCall,
 //   } = useCallLogic(companyId);
 console.log(incomingCall);
+console.log(remoteStream);
 
   return (
     // <CallProvider>
