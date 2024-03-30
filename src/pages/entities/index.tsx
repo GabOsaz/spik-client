@@ -29,8 +29,10 @@ function CompanyReceiveCall() {
 //     handleMute,
 //     handleEndCall,
 //   } = useCallLogic(companyId);
-console.log(incomingCall);
 console.log(remoteStream);
+const hostTrack = stream?.getTracks()?.find((track: { kind: string; }) => track.kind === 'audio');
+console.log(hostTrack?.enabled);
+const remoteTrack = remoteStream?.getTracks().find((track: any) => track.kind === 'audio');
 
   return (
     // <CallProvider>
@@ -48,7 +50,7 @@ console.log(remoteStream);
                                 <Timer />
                             </div>}
                             <div className="">
-                                <AudioPlayer stream={remoteStream} handleMute={handleMute} isMuted={isMuted} />
+                                <AudioPlayer stream={remoteStream} isMuted={hostTrack.enabled} />
                             </div>
                             <div className="absolute bottom-6">
                                 <div className="flex justify-center space-x-6">

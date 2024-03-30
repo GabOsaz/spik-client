@@ -36,11 +36,13 @@ function useEntitiesLogic() {
       const companyId = pathname.split('/')[2]
 
     const handleEndCall = useCallback(() => {
+        setIsMuted(false);
         socketInstance?.emit('end_call', id);
         incomingCall?.close();
         remoteStream?.getTracks().forEach((track) => track.stop());
         stream?.getTracks().forEach((track: any) => track.stop());
         setRemoteStream(null);
+        setStream(null);
     // navigate('/entities')
     }, [incomingCall, remoteStream, stream]);
 
@@ -214,6 +216,31 @@ function useEntitiesLogic() {
         setIsMuted(false);
         return hostTrack.enabled = true;
     }
+
+    // const handleMute = (streamId?: string) => {
+    //     console.log(streamId)
+    //     const isRemote = streamId === remoteStream?.id;
+    //     const hostTrack = stream?.getTracks()?.find((track: { kind: string; }) => track.kind === 'audio');
+    //     const remoteTrack = remoteStream?.getTracks().find((track: any) => track.kind === 'audio');
+    //     if (isRemote) {
+    //         console.log('here')
+    //         // setRemoteMute((init) => !init);
+    //         if (remoteTrack?.enabled) {
+    //             remoteTrack.enabled = false;
+    //         } else if (remoteTrack?.enabled === false){
+    //             remoteTrack.enabled = true;
+    //         }
+    //         // return !remoteStream?.current?.getTracks()?.find((track: any) => track.kind === 'audio')?.enabled;
+    //     } else {
+    //         console.log('here')
+    //         // setMute((init) => !init);
+    //         if (hostTrack?.enabled) {
+    //             hostTrack.enabled = false;
+    //         } else if (hostTrack?.enabled === false){
+    //             hostTrack.enabled = true;
+    //         }
+    //     }
+    // }
   
     return {
         handleMute,

@@ -60,6 +60,7 @@ function useCallLogic(companyId: string) {
     console.log(remoteStream);
 
     const handleEndCall = useCallback(() => {
+        setIsMuted(false);
         socketInstance?.emit('end_call', id);
         incomingCall?.close();
         remoteStream?.getTracks().forEach((track) => track.stop());
