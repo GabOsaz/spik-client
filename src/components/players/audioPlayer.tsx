@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 // 0903 565 8246
 export const AudioPlayer: React.FC<{ stream?: MediaStream | null, handleMute?: () => void, isMuted?: boolean }> = (
     { stream, isMuted }) => {
-    const audioRef = useRef<HTMLVideoElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
         if (audioRef.current && stream) audioRef.current.srcObject = stream;
