@@ -9,7 +9,7 @@ function Call() {
   const { 
     pathname,
   } = useLocation();
-  const companyId = pathname.split('/')[2]
+  const companyId = pathname.split('/')[2];
 
   const {
     stream,

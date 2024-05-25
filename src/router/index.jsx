@@ -4,6 +4,8 @@ import App from '../App.tsx';
 import Call from '../pages/call/page';
 import CompanyReceiveCall from '../pages/entities';
 import EntitiesList from '../pages/entities/page';
+import Messages from '../pages/messages/page';
+import MessageProvider from '../context/MessageContext.jsx';
 
 function ErrorPage() {
   return (
@@ -25,6 +27,16 @@ const noneAuthRoutes = [
     path: routeMap.entities || routeMap.root,
     element: (
       <CompanyReceiveCall />
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    name: 'messages',
+    path: routeMap.messages,
+    element: (
+      <MessageProvider>
+        <Messages />
+      </MessageProvider>
     ),
     errorElement: <ErrorPage />,
   },

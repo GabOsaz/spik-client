@@ -188,6 +188,7 @@ const App = () => {
         setIncomingCall((prev: any) => prev?.filter((call: any) => call?.peer !== currCall?.peer));
         setCurrCall(null);
         remoteStream?.getTracks().forEach((track) => track.stop());
+        stream?.getTracks().forEach((track: any) => track.stop());
     };
     console.log(remoteStream);
 
@@ -248,6 +249,7 @@ const App = () => {
         setNums(reArranged);
         setCurrNum(num);
     }
+    console.log(currCall);
 
     return (
         <div className="App flex space-y-4 items-center justify-center w-screen h-screen">
@@ -298,7 +300,7 @@ const App = () => {
                 </div>
             </div>
             <div className="flex space-x-4 mt-4">
-                {stream && 
+                {remoteStream &&
                 <div>
                     <VideoPlayer mute={mute} handleMute={() => handleMute()} stream={stream} />
                 </div>}
@@ -309,9 +311,9 @@ const App = () => {
             </div>
 
             {/* {currCall && ( */}
-                <div className="border-l-2 pb-28 absolute right-6 bottom-5">
+                {/* <div className="border-l-2 pb-28 absolute right-6 bottom-5">
                     <Chat socket={socket} userId={id} messages={chatMessages} />
-                </div>
+                </div> */}
             {/* )} */}
             
             {currCall &&
@@ -322,13 +324,13 @@ const App = () => {
                 End call
             </button>}
 
-            {nums.map((each, index) => (
+            {/* {nums.map((each, index) => (
                 <div key={each} className="flex space-x-4">
                     <span onClick={() => handleClick(each, index)} className={`${(currNum !== undefined && each <= currNum) ? 'text-orange-500' : 'text-white'} cursor-pointer text-5xl`}>
                         {each}
                     </span>
                 </div>
-            ))}
+            ))} */}
 
             {/* <IntervalExample /> */}
             

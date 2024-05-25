@@ -44,6 +44,10 @@ function EntitiesList() {
 
   const handleCallNavigation = (companyId: string) => {
     navigate(`/call/${companyId}`);
+  };
+
+  const handleMessageNavigation = (companyId: string) => {
+    navigate(`/messages/${companyId}`);
   }
 
   const handleClearInput = () => (setSearchTerm(''));
@@ -83,7 +87,7 @@ function EntitiesList() {
                                         <Button onClick={() => handleCallNavigation(each.name.toLocaleLowerCase())} className="">Call</Button>
                                     </div>
                                     <div className="">
-                                        <Button className="">Message</Button>
+                                        <Button onClick={() => handleMessageNavigation(each.name.toLocaleLowerCase())} className="">Message</Button>
                                     </div>
                                 </div>
                             </div>
